@@ -1,0 +1,34 @@
+#!/bin/bash
+# ./mkproj
+# Name: Zenghao Gao
+# Student ID: 260915701
+
+arg=$1
+own=$2
+
+if test "$#" -ne 2; then
+	echo "Error: Wrong number of arguments. Please type ./mkproj ARGUMENT OWNER. The argument is the name of the project. The OWNER is the username the project belongs to."
+	exit 0
+fi
+
+if [ ! -d "Projects" ]; then
+	mkdir Projects
+fi
+
+cd Projects/
+
+if [ -d "$arg" ]; then
+	echo "Error: The project name has already been used. Please select another project name and try again."
+else
+	mkdir $arg
+	cd $arg
+	mkdir archive
+	mkdir backup
+	mkdir docs
+	mkdir assets
+	mkdir database
+	mkdir source
+	ls
+	echo "Created by: $own" >readme.txt
+	cat readme.txt
+fi

@@ -1,0 +1,43 @@
+#!/bin/bash
+# ./backup
+# Name: Zenghao Gao
+# Student ID: 260915701
+
+if test "$#" -le 2; then
+	echo "You have the incorrect number of arguments. The correct syntax is: ./backup SWITCH FILES DEST MESSAGE. Please try again."
+	exit 0
+else
+	if [ "$1" == "-D" ]; then
+		files=$2
+		dest=$3
+		for a in $@; do
+			if [ $a != $1 ] && [ $a != $files ] && [ $a != $dest ]; then
+				msg="${msg} ${a}"
+			fi
+		done
+	else
+		files=$1
+		dest=$2
+		for a in $@; do
+			if [ $a != $files ] && [ $a != $dest ]; then
+				msg="${msg} ${a}"
+			fi
+		done
+	fi
+fi
+
+if [ ! -d "$dest" ]; then
+	mkdir $dest
+fi
+
+#test complete
+date=$(date "+%m-%d-%y")
+time=$(date +%H:%M:%S)
+name=backup$date.tar
+tar -cvf $dest/$name $files
+chmod 600 $dest/$name
+echo "$date $time$msg" >> $dest/backup.log
+
+if [ "$1" == "-D" ]; then
+	rm -r $2
+fi
